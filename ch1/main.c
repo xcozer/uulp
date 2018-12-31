@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <err.h>
+#include <errno.h>
 
 #define PAGELEN 24
 #define LINELEN 512
 
 void do_more(FILE *);
 
-int see_more();
+int see_more(FILE *);
 
 int main(int count, char *args[]) {
     FILE *fp;
@@ -26,9 +28,14 @@ void do_more(FILE *fp) {
     char line[LINELEN];
     int num_of_lines = 0;
     int reply;
+    FILE *fp_tty = fopen("/dev/tty", "r");
+    if (fp_tty == NULL) {
+        perror("open tty failed");
+        exit(1);
+    }
     while (fgets(line, LINELEN, fp)) {
         if (num_of_lines == PAGELEN) {
-            reply = see_more();
+            reply = see_more(fp_tty);
             if (reply == 0)
                 break;
             num_of_lines -= reply;
@@ -39,10 +46,10 @@ void do_more(FILE *fp) {
     }
 }
 
-int see_more() {
+int see_more(FILE *fp) {
     int c;
     printf("\033[7m more? \033[m");
-    while ((c = getchar()) != EOF) {
+    while ((c = getc(fp)) != EOF) {
         if (c == 'q')
             return 0;
         if (c == ' ')
