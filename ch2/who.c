@@ -4,7 +4,9 @@
 #ifdef __linux__
 #include <utmp.h>
 #elif __APPLE__
+
 #include <utmpx.h>
+
 #endif
 
 #include <fcntl.h>
@@ -13,7 +15,11 @@
 
 #define SHOWHOST
 
+#ifdef __linux__
+void showTime(time_t t);
+
 void showInfo(struct utmp *);
+#endif
 
 //read /var/run/utmp
 int main(int argc, char *argv[]) {
@@ -46,15 +52,28 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
+#ifdef __linux__
 void showInfo(struct utmp *p) {
+    if (p->ut_type != USER_PROCESS) {
+        return;
+    }
+
     printf("%-8.8s", p->ut_name);
     printf("");
     printf("%-8.8s", p->ut_line);
     printf("");
-    printf("%10ld", p->ut_time);
+    showTime(p->ut_time);
     printf("");
 #ifdef SHOWHOST
-    printf("(%s)", p->ut_host);
+    if (p->ut_host[0] != '\0')
+        printf("(%s)", p->ut_host);
 #endif
     printf("\n");
 }
+
+void showTime(time_t t) {
+    char *cp;
+    cp = ctime(&t);
+    printf("%12.12s", cp + 4);
+}
+#endif
