@@ -35,19 +35,17 @@ int main(int argc, char *argv[]) {
     }
     endutxent();
 #elif __linux__
-    struct utmp currentRecord;
-    int utmpFd;
-    size_t recLen = sizeof(currentRecord);
+    struct utmp *buf;
 
-    if ((utmpFd = open(UTMP_FILE, O_RDONLY)) == -1) {
+    if (utmp_open(UTMP_FILE) == -1) {
         perror(UTMP_FILE);
         exit(1);
     }
 
-    while (read(utmpFd, &currentRecord, recLen) == recLen) {
-        showInfo(&currentRecord);
+    while ((buf = utmp_next()) != NULLUT) {
+        showInfo(buf);
     }
-    close(utmpFd);
+    utmp_close();
 #endif
     return 0;
 }
