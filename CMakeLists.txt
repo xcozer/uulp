@@ -5,3 +5,4 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(ch1_more ch1/main.c)
 add_executable(who ch2/who.c)
+add_executable(cp ch2/cp.c)
