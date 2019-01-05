@@ -2,6 +2,7 @@
 // Created by xuechi on 2019-01-06.
 //
 #include <stdio.h>
+#include <unistd.h>
 #include <curses.h>
 
 int main() {
@@ -10,7 +11,7 @@ int main() {
     initscr();
     clear();
     for (i = 0; i < LINES; ++i) {
-        move(i, i + i);
+        move(i, i + 1);
         if (i % 2 == 1) {
             standout();
         }
@@ -18,8 +19,10 @@ int main() {
         if (i % 2 == 1) {
             standend();
         }
+        refresh();
+        sleep(1);
+        move(i, i + 1);
+        addstr("                   ");
     }
-    refresh();
-    getch();
     endwin();
 }
