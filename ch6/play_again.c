@@ -3,9 +3,11 @@
 //
 #include <stdio.h>
 #include <fcntl.h>
+#include <ctype.h>
 #include <unistd.h>
 #include <string.h>
-#include <ctype.h>
+#include <signal.h>
+#include <stdlib.h>
 #include <termios.h>
 
 #define ASK "Do you want another transaction"
@@ -23,12 +25,16 @@ void set_cr_noecho_mode();
 
 void set_nodelay_mode();
 
+void ctrl_c_handler(int);
+
 int main() {
     int response;
 
     tty_mode(0);
     set_cr_noecho_mode();
     set_nodelay_mode();
+    signal(SIGINT, ctrl_c_handler);
+    signal(SIGQUIT, SIG_IGN);
 
     response = get_response(ASK, TRIES);
 
@@ -91,4 +97,9 @@ void set_nodelay_mode() {
     term_flags = fcntl(0, F_GETFL);
     term_flags |= O_NDELAY;
     fcntl(0, F_SETFL, term_flags);
+}
+
+void ctrl_c_handler(int signum) {
+    tty_mode(1);
+    exit(1);
 }
