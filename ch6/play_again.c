@@ -10,13 +10,13 @@ int get_response(char *);
 
 void tty_mode(int);
 
-void set_crmode();
+void set_cr_noecho_mode();
 
 int main() {
     int response;
 
     tty_mode(0);
-    set_crmode();
+    set_cr_noecho_mode();
 
     response = get_response(QUESTION);
 
@@ -37,9 +37,6 @@ int get_response(char *question) {
             case 'N':
             case EOF:
                 return 1;
-            default:
-                printf("\ncannot understand %c, ", input);
-                printf("Please type y or n \n");
         }
     }
 }
@@ -53,10 +50,11 @@ void tty_mode(int how) {
     }
 }
 
-void set_crmode() {
+void set_cr_noecho_mode() {
     struct termios info;
     tcgetattr(0, &info);
     info.c_lflag &= ~ICANON;
+    info.c_lflag &= ~ECHO;
     info.c_cc[VMIN] = 1;
     tcsetattr(0, TCSANOW, &info);
 }
