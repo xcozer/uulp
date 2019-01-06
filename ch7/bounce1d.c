@@ -2,9 +2,9 @@
 // Created by xuechi on 2019-01-06.
 //
 #include <stdio.h>
-#include <curses.h>
 #include <signal.h>
 #include <string.h>
+#include <ncurses.h>
 #include <sys/time.h>
 
 #define MESSAGE "hello"
