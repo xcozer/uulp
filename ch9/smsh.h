@@ -24,4 +24,12 @@ int execute(char **);
 
 void fatal(char *, char *, int);
 
+int is_control_command(char *);
+
+int do_control_command(char **);
+
+int ok_to_execute();
+
+int process(char **args);
+
 #endif //UULP_SMSH_H

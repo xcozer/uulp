@@ -21,7 +21,7 @@ int main() {
 
     while ((cmdline = next_cmd(prompt, stdin)) != NULL) {
         if ((arglist = splitline(cmdline)) != NULL) {
-            result = execute(arglist);
+            result = process(arglist);
             freelist(arglist);
         }
         free(cmdline);

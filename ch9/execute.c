@@ -29,6 +29,6 @@ int execute(char **argv) {
             perror("wait");
         }
 
-        return child_info;
     }
+    return child_info;
 }
