@@ -6,7 +6,9 @@
 #include <string.h>
 #include <signal.h>
 #include <unistd.h>
+
 #include "smsh.h"
+#include "varlib.h"
 
 #define DFL_PROMPT ">"
 
@@ -31,6 +33,8 @@ int main() {
 }
 
 void setup() {
+    VLenviron2table(environ);
+
     signal(SIGQUIT, SIG_IGN);
     signal(SIGINT, SIG_IGN);
 }

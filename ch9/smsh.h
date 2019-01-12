@@ -8,6 +8,8 @@
 #define YES 1
 #define NO  0
 
+extern char **environ;
+
 char *next_cmd(char *, FILE *);
 
 char **splitline(char *);
@@ -31,5 +33,7 @@ int do_control_command(char **);
 int ok_to_execute();
 
 int process(char **args);
+
+int builtin_command(char **, int *);
 
 #endif //UULP_SMSH_H

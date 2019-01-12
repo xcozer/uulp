@@ -8,6 +8,7 @@
 #include <sys/wait.h>
 
 #include "smsh.h"
+#include "varlib.h"
 
 int execute(char **argv) {
     int pid, child_info = -1;
@@ -19,6 +20,8 @@ int execute(char **argv) {
     if ((pid = fork()) == -1) {
         perror("fork");
     } else if (pid == 0) {
+        environ = VLtable2envrion();
+
         signal(SIGQUIT, SIG_DFL);
         signal(SIGINT, SIG_DFL);
         execvp(argv[0], argv);
