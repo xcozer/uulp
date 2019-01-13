@@ -7,7 +7,7 @@
 
 #include "varlib.h"
 
-#define MAXVARS 20
+#define MAXVARS 200
 
 struct var {
     char *str;

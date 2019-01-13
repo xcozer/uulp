@@ -2,6 +2,7 @@
 // Created by xuechi on 2019-01-12.
 //
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -31,6 +32,8 @@ int builtin_command(char **args, int *resultp) {
             *resultp = 1;
         }
         rv = 1;
+    } else if (strcmp(args[0], "exit") == 0) {
+        exit(0);
     }
 
     return rv;
@@ -53,6 +56,7 @@ int okname(char *name) {
 
     for (cp = name; *cp; cp++) {
         if ((isdigit(*cp) && cp == name) || !(isalnum(*cp) || *cp == '_')) {
+            printf("wrong name: %s\n", name);
             return 0;
         }
     }
