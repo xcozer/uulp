@@ -40,3 +40,4 @@ add_executable(smsh ch9/smsh.c ch9/execute.c ch9/smsh.h ch9/splitline.c ch9/proc
 add_executable(showenv ch9/showenv.c)
 add_executable(whotofile ch10/whotofile.c)
 add_executable(pipedemo ch10/pipedemo.c)
+add_executable(pipedemo2 ch10/pipedemo2.c)
